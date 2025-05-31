@@ -36,4 +36,4 @@ def index():
     return render_template("index.html", prediction=None) #if request method not post (get)
 
 if __name__ == "__main__": #for avoiding run during running file, where current file is imported
-    app.run(debug=True) #debug - autoreload after changes and more detailed showing of errors
+    app.run(debug=True, port=5000) #debug - autoreload after changes and more detailed showing of errors
