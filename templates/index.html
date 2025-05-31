@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прогноз загруженности МКАД</title>
+    <!-- what css file to use -->
+     <!-- ?v=1 -querry parameter of version of file, if will chane it to 2 browser will perceive connected file like 
+      a new one and won't gonna use cached previous loaded version of file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=1">
+   
+</head>
+<body>
+    <div class="container">
+        <h1>TraffiDance 🚗</h1>
+        <h1>Прогноз загруженности МКАД</h1>
+        <!-- send with this form post-request to endpoit / on url, where the app using this .html ran -->
+         <!-- form indicates right away after loading the site -->
+        <form method="POST" action="/">
+            <div class="input-group">
+                <label for="hour">Время суток (в часах)</label>
+                <input type="number" id="hour" name="hour" min="0" max="100" required
+                       placeholder="Введите час (от 0 до 23)">
+            </div>
+            
+            <div class="input-group">
+                <label for="temp_c">Температура (°C):</label>
+                <input type="number" id="temp_c" name="temp_c" step="0.1" required
+                       placeholder="Введите температуру">
+            </div>
+            
+            <div class="input-group">
+                <label for="humidity">Влажность (%):</label>
+                <input type="number" id="humidity" name="humidity" min="0" max="100" required
+                       placeholder="Введите влажность 0-100">
+            </div>
+            
+            <div class="input-group">
+                <label for="wind_kph">Скорость ветра (км/ч):</label>
+                <input type="number" id="wind_kph" name="wind_kph" min="0" required
+                       placeholder="Введите скорость ветра">
+            </div>
+            
+            <div class="input-group">
+                <label for="cloud">Облачность (%):</label>
+                <input type="number" id="cloud" name="cloud" min="0" max="100" required
+                       placeholder="Введите облачность 0-100">
+            </div>
+            
+            <div class="form-group">
+                <label for="will_it_rain">Будет дождь?</label>
+                <select id="will_it_rain" name="will_it_rain" required>
+                    <option value="0">Нет</option>
+                    <option value="1">Да</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="condition">Погодные условия:</label>
+                <select id="condition" name="condition" required>
+                    <option value="Ясно">Ясно</option>
+                    <option value="Облачно">Облачно</option>
+                    <option value="Временами сильный дождь">Временами сильный дождь</option>
+                    <option value="Умеренный или сильный ливневый дождь">Умеренный или сильный ливневый дождь</option>
+                    <option value="Временами умеренный дождь">Временами умеренный дождь</option>
+                    <option value="Пасмурно">Пасмурно</option>
+                    <option value="Переменная облачность">Переменная облачность</option>
+                    <option value="Местами дождь">Местами дождь</option>
+                    <option value="Солнечно">Солнечно</option>
+                </select>
+            </div>
+            
+            <button type="submit">Рассчитать</button> 
+<!-- after pushing the button of type "submit" the post-request with data dpecified in <form> sends to flaskapp.py -->
+        </form>
+        
+        <!-- placeholder prediction is none only when we didn't make any of successful post-requests
+        if it is not none, the next block is being shown -->
+        {% if prediction is not none %}
+        <div class="result">
+            <h2>Прогноз загруженности: <span class="percentage-value">{{ prediction }}%</span></h2>
+            
+            <div class="traffic-visualization">
+                <div class="traffic-bar" style="--load">
+                    <div class="traffic-fill" style="width: {{ prediction }}%"></div>
+                </div>
+                
+                <div class="traffic-status">
+                    {% if prediction < 30 %}
+                        <p class="status-free">✅ Дороги свободны</p>
+                    {% elif prediction < 70 %}
+                        <p class="status-medium">⚠️ Умеренная загрузка</p>
+                    {% else %}
+                        <p class="status-heavy">🚨 Пробки!</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
