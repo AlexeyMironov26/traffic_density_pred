@@ -7,6 +7,7 @@ After activation you can install necessary dependencies for correct working of a
 2. to run the server go into directory of this project at cmd/powershell or bash and input a command
 "python flaskapp.py" 
 3. TO quit virtual environment enter in cmd "deactivate"
-4. You can make your server available on the internet istalling ngrok. 
+4. You can make your server available on the internet istalling ngrok . 
 if ngrock is installed, you can run the flask app (python flaskapp.py) and after enter "ngrok http http://127.0.0.1:5000"
  (after http must be address where yor server is runnin) and you'll get internet link of your site from ngrock
+ in string "Forwarding" (better enter ngrok http - command with turned on VPN)
